@@ -1,4 +1,5 @@
 const allEnemies = [];
+
 // Enemies our player must avoid
 class Enemy {
   // Variables applied to each of our instances go here,
@@ -29,6 +30,7 @@ class Enemy {
 
   }
 
+
   // Draw the enemy on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -43,12 +45,19 @@ class Enemy {
 // a handleInput() method.
 class Player {
   constructor(x, y) {
+    this.startingX = x;
+    this.startingY = y;
     this.x = x;
     this.y = y;
+    this.xStep = 101;
+    this.yStep = 83;
     this.sprite = 'images/char-boy.png';
   }
 
   update() {
+    if (this.checkCollisions()) {
+      this.resetPlayer();
+    }
 
   }
 
@@ -57,21 +66,63 @@ class Player {
   }
 
   handleInput(key) {
-    if (key === 'left' && this.x !== 0) {
-      this.x -= 101;
-    }
+    const boundery = {
+      left: 0,
+      right: 404,
+      up: -20,
+      down: 395,
+    };
 
-    if (key === 'right' && this.x !== 404) {
-      this.x += 101;
-    }
+    switch (key) {
+      case 'left':
+        if (this.x !== boundery[key]) {
+          this.x -= this.xStep;
+        }
+        break;
 
-    if (key === 'up' && this.y !== -20) {
-      this.y -= 83;
-    }
+      case 'right':
+        if (this.x !== boundery[key]) {
+          this.x += this.xStep;
+        }
+        break;
 
-    if (key === 'down' && this.y !== 395) {
-      this.y += 83;
+      case 'up':
+        if (this.y !== boundery[key]) {
+          this.y -= this.yStep;
+        }
+        break;
+
+      case 'down':
+        if (this.y !== boundery[key]) {
+          this.y += this.yStep;
+        }
+        break;
     }
+  }
+
+  resetPlayer() {
+    this.x = this.startingX;
+    this.y = this.startingY;
+  }
+
+  checkCollisions() {
+    let collision = false;
+    allEnemies.forEach( enemy => {
+      if(this._sameRow(enemy) && this._isWithinHitbox(enemy)) {
+        collision = true;
+      }
+    });
+    return collision;
+  }
+
+  _isWithinHitbox(enemy) {
+    const leftHitBox = player.x - 65;
+    const rightHitBox = player.x + 65;
+    return enemy.x > leftHitBox && enemy.x < rightHitBox;
+  }
+
+  _sameRow(enemy) {
+    return enemy.y === player.y;
   }
 }
 
@@ -79,8 +130,8 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const enemy1 = new Enemy(0, 63, 200);
-const enemy2 = new Enemy(101, 146, 150);
-const enemy3 = new Enemy(80, 229, 130);
+const enemy2 = new Enemy(160, 146, 250);
+const enemy3 = new Enemy(80, 229, 230);
 
 
 allEnemies.push(enemy1, enemy2, enemy3);
