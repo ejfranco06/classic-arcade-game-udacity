@@ -20,12 +20,11 @@ class Enemy {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.moveAcross(dt);
 
-    const move = this.speed * dt;
-    this.x += move;
 
-    if (this.x > 500) {
-      this.x = -100;
+    if(this.checkCollision()) {
+      player.resetPlayer();
     }
 
   }
@@ -34,6 +33,29 @@ class Enemy {
   // Draw the enemy on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+
+  moveAcross(dt) {
+    const move = this.speed * dt;
+    this.x += move;
+
+    if (this.x > 500) {
+      this.x = -100;
+    }
+  }
+
+  checkCollision() {
+    return this._sameRow() && this._isWithinHitbox();
+  }
+
+  _isWithinHitbox() {
+    const leftHitBox = player.x - 65;
+    const rightHitBox = player.x + 65;
+    return this.x > leftHitBox && this.x < rightHitBox;
+  }
+
+  _sameRow() {
+    return this.y === player.y;
   }
 
 }
@@ -55,9 +77,9 @@ class Player {
   }
 
   update() {
-    if (this.checkCollisions()) {
-      this.resetPlayer();
-    }
+    // if (this.checkCollisions()) {
+    //   this.resetPlayer();
+    // }
 
   }
 
