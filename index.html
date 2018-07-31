@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Effective JavaScript: Frogger</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Kirang+Haerang" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Effective JavaScript: Frogger</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Kirang+Haerang" rel="stylesheet">
 </head>
+
 <body>
+  <!-- Game info panel -->
   <div class="info-panel">
     <div class="lives-container">
       Lives: <span class="lives"></span>
     </div>
     <div>
-       Score: <span class="score"></span>
+      Score: <span class="score"></span>
     </div>
   </div>
 
+  <!--Game over modal  -->
   <div class="modal-container">
-      <div class="modal-content">
-        <h2>Game Over!!!</h2>
-        <h3 class="final-score"></h3>
-        <button class="play-again-btn">play again?</button>
-      </div>
+    <div class="modal-content">
+      <h2>Game Over!!!</h2>
+      <h3 class="final-score"></h3>
+      <button class="play-again-btn">play again?</button>
     </div>
+  </div>
 
-    <script src="js/resources.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/engine.js"></script>
+  <script src="js/resources.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/engine.js"></script>
 </body>
+
 </html>

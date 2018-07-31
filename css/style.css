@@ -1,29 +1,29 @@
 body {
-    text-align: center;
-    font-family: 'Kirang Haerang', cursive;
-    font-size: 32px;
+  text-align: center;
+  font-family: 'Kirang Haerang', cursive;
+  font-size: 32px;
 }
 
-canvas{
+canvas {
   margin-top: -50px;
 }
 
+/*
+ * Styles info panel
+ */
 
 .info-panel {
-  font-family: 'Kirang Haerang', cursive;
   display: flex;
   width: 505px;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-around;
   font-size: 32px;
-
 }
 
 .lives {
   color: #e31b23
 }
-
 
 /*
  * Styles for the Score Modal
