@@ -4,10 +4,11 @@ const allEnemies = [];
 class Enemy {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
-  constructor(x, y, speed) {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.speed = speed;
+    this.defaultSpeed = 200;
+    this.speed = this.randomSpeed();
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -40,12 +41,23 @@ class Enemy {
     this.x += move;
 
     if (this.x > 500) {
+      this.changeSpeed()
       this.x = -100;
     }
   }
 
   checkCollision() {
     return this._sameRow() && this._isWithinHitbox();
+  }
+
+  changeSpeed() {
+    this.speed = this.randomSpeed();
+  }
+
+  randomSpeed() {
+    const multiplier = Math.random() *(2 - .5) + .5;
+
+    return this.defaultSpeed * multiplier;
   }
 
   _isWithinHitbox() {
@@ -158,12 +170,13 @@ class Player {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-const enemy1 = new Enemy(0, 63, 200);
-const enemy2 = new Enemy(260, 146, 250);
-const enemy3 = new Enemy(80, 229, 230);
+const enemy1 = new Enemy(0, 63);
+const enemy2 = new Enemy(0, 146);
+const enemy3 = new Enemy(0, 229);
+const enemy4 = new Enemy(0, 229);
 
 
-allEnemies.push(enemy1, enemy2, enemy3);
+allEnemies.push(enemy1, enemy2, enemy3, enemy4);
 
 
 const player = new Player();
