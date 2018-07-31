@@ -24,8 +24,7 @@ class Enemy {
 
 
     if(this.checkCollision()) {
-      player.resetPlayer();
-      player.decreaseLives();
+      player.hit();
     }
 
   }
@@ -72,7 +71,7 @@ class Player {
     this.startingY = 395;
     this.xStep = 101;
     this.yStep = 83;
-    this.crossed = 0;
+    this.points = 0;
     this.lives = 3;
     this.x = this.startingX;
     this.y = this.startingY;
@@ -81,9 +80,8 @@ class Player {
   }
 
   update() {
-    if( this._reachedWater() ) {
-      this._increaseCrossed();
-      this.resetPlayer();
+    if(this._reachedWater()) {
+      this._scorePoints();
     }
 
   }
@@ -134,18 +132,28 @@ class Player {
   decreaseLives() {
     this.lives--;
   }
-  _increaseCrossed() {
-    this.crossed++;
+  _scorePoints() {
+    this._increasePoints();
+    this.resetPosition();
+  }
+  _increasePoints() {
+    this.points += 25;
   }
   _reachedWater() {
     return this.y === -20;
   }
-  resetPlayer() {
+  resetPosition() {
     this.x = this.startingX;
     this.y = this.startingY;
   }
 
+  hit() {
+    this.resetPosition();
+    this.decreaseLives();
+  }
+
 }
+
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -161,6 +169,26 @@ allEnemies.push(enemy1, enemy2, enemy3);
 const player = new Player();
 
 
+function panelUpdate() {
+  const scoreEl = document.getElementsByClassName('score')[0];
+  const liveEl = document.getElementsByClassName('lives')[0];
+  const heartIcon = '❤';
+  const lives = player.lives;
+
+  let hearts = '';
+  for(let i = 0; i < lives; i++) {
+    hearts += heartIcon;
+  }
+
+  scoreEl.innerHTML = player.points;
+  liveEl.innerHTML = hearts;
+
+
+
+
+
+
+}
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
