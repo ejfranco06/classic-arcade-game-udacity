@@ -1,4 +1,7 @@
 const allEnemies = [];
+const replayButton  = document.getElementsByClassName('play-again-btn')[0];
+let isGameOver = false;
+
 
 // Enemies our player must avoid
 class Enemy {
@@ -159,6 +162,12 @@ class Player {
     this.y = this.startingY;
   }
 
+  resetPlayer() {
+    this.points = 0;
+    this.lives = 3;
+    this.resetPosition();
+  }
+
   hit() {
     this.resetPosition();
     this.decreaseLives();
@@ -195,12 +204,21 @@ function panelUpdate() {
 
   scoreEl.innerHTML = player.points;
   liveEl.innerHTML = hearts;
+}
 
+function gameOverModal() {
+  const modalEl = document.getElementsByClassName('modal-container')[0];
+  const scoreEl = document.getElementsByClassName('final-score')[0];
 
+  scoreEl.innerHTML =`Final Score: ${player.points}`;
+  modalEl.classList.toggle('show-modal');
 
-
-
-
+}
+function checkGameOver() {
+  if(player.lives === 0) {
+    isGameOver = true;
+    gameOverModal();
+  }
 }
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -214,3 +232,13 @@ document.addEventListener('keyup', function(e) {
 
   player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// replayButton.addEventListener('click', () => {
+//   const modalEl = document.getElementsByClassName('modal-container')[0];
+//   modalEl.classList.toggle('show-modal');
+//
+//   player.resetPlayer();
+//   isGameOver = false;
+//
+//
+// });

@@ -24,6 +24,8 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
+        const replayButton  = document.getElementsByClassName('play-again-btn')[0];
+
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
@@ -55,7 +57,9 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+         if(!isGameOver){
+           win.requestAnimationFrame(main);
+         } 
     }
 
     /* This function does some initial setup that should only occur once,
@@ -78,8 +82,10 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        checkGameOver();
         updateEntities(dt);
         panelUpdate()
+
     }
 
     /* This is called by the update function and loops through all of the
@@ -164,6 +170,8 @@ var Engine = (function(global) {
      */
     function reset() {
         // noop
+        panelUpdate();
+
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -184,4 +192,15 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+
+    replayButton.addEventListener('click', () => {
+      const modalEl = document.getElementsByClassName('modal-container')[0];
+      modalEl.classList.toggle('show-modal');
+
+      player.resetPlayer();
+      isGameOver = false;
+      win.requestAnimationFrame(main);
+
+
+    });
 })(this);
